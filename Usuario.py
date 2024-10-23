@@ -1,19 +1,34 @@
 import pandas as pd
 
 class Usuario:
-    def __init__(self, nome_arquivo="usuarios.csv"):
+    def __init__(self, nome_arquivo="dados.json"):
         self.nome_arquivo = nome_arquivo
         try:
-            self.df_usuarios = pd.read_csv(self.nome_arquivo, index_col="nome")
+            self.df_usuarios = pd.read_json(self.nome_arquivo, orient='records', lines=True)
         except FileNotFoundError:
             self.df_usuarios = pd.DataFrame(columns=["nome", "vitorias", "derrotas"])
-            self.df_usuarios.set_index("nome", inplace=True)
+            self.df_usuarios.to_json('dados.json', orient='records', lines=True)
 
     def adicionar_usuario(self, nome):
-        self.df_usuarios['nome'] = nome
-        if nome not in self.df_usuarios.index:
-            self.df_usuarios.loc[0, 'nome'] = nome  # Inicializa com 0 vitórias e 0 derrotas
-            print(f"{nome}")
+        if self.df_usuarios.empty:
+            novo_usuario = {
+                'nome': nome,
+                'vitorias': 0,
+                'derrotas': 0
+            }
+            self.df_usuarios = self.df_usuarios._append(novo_usuario, ignore_index=True)
+            self.df_usuarios.to_json('dados.json', orient='records', lines=True)
+        else:
+            if nome in self.df_usuarios['nome'].values:
+                print(f"O nome '{nome}' já está cadastrado.")
+            else:
+                novo_usuario = {
+                'nome': nome,
+                'vitorias': 0,
+                'derrotas': 0
+            }
+            self.df_usuarios = self.df_usuarios._append(novo_usuario, ignore_index=True)
+            self.df_usuarios.to_json('dados.json', orient='records', lines=True)
 
     def atualizar_estatisticas(self, nome, ganhou):
         if nome in self.df_usuarios.index:
