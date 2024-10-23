@@ -1,13 +1,13 @@
-from IPython.display import clear_output
 from Forca import Forca
-from Usuario import Usuario
+from UserSystem import UserSystem
 
 
 def main():
     # Cria uma instância da classe Forca com uma lista de palavras
     jogo = Forca(["python", "programacao", "computador"])
-    usuario = Usuario()
-    usuario.adicionar_usuario("Pardini")
+    userSystem = UserSystem('users.json')
+    user = userSystem.auth()
+    print(f"Nome: {user.name}\nCargo: {user.role}\nVitorias: {user.wins}\nDerrotas: {user.loses}")
     
     # Inicia o jogo
     while jogo.verificar_fim_de_jogo() == False:
