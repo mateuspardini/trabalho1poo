@@ -8,7 +8,7 @@ class UserSystem:
             self.df_users = pd.read_json(self.file_name, orient='records', lines=True)
         except FileNotFoundError:
             self.df_users = pd.DataFrame(columns=["name", "role", "wins", "loses"])
-            self.df_users.to_json('users.json', orient='records', lines=True)
+            self.df_users.to_json(self.file_name, orient='records', lines=True)
 
     def add_user(self, name, role):
         new_user = {
