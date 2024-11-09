@@ -12,9 +12,6 @@ def main():
         logged_user.add_words(game)
     elif logged_user.role == 'jogador':
         # Inicia o jogo
-        while jogo.verificar_fim_de_jogo() == False:
-            jogo.exibir_estado()
-            palpite = jogo.obter_palpite()
-            jogo.verificar_palpite(palpite)
+        game.start_game()
 
 main()

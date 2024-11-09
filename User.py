@@ -1,3 +1,5 @@
+from Utils import Utils
+
 class User:
     def __init__(self, name, role, wins, loses):
         self.name = name
@@ -20,17 +22,6 @@ class Admin(User):
             word = ''
             while confirmation == False:
                 word = input("Insira a palavra que deseja adicionar: ")
-                confirmation = self.confirm_action(f"Você tem certeza que deseja inserir a palavra {word} no banco? ")
+                confirmation = Utils.confirm_action(f"Você tem certeza que deseja inserir a palavra {word} no banco? ")
             hangman.add_word(word)
-            add_another_word = self.confirm_action("Deseja adicionar uma nova palavra? ")
-
-
-    def confirm_action(self, message):
-        while True:
-            resposta = input(message).lower()
-            if resposta in ['s', 'sim']:
-                return True
-            elif resposta in ['n', 'não', 'nao']:
-                return False
-            else:
-                print("Por favor, responda com 's' para sim ou 'n' para não.")
+            add_another_word = Utils.confirm_action("Deseja adicionar uma nova palavra? ")

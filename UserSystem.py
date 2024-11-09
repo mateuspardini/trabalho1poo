@@ -19,13 +19,13 @@ class UserSystem:
         }
         if self.df_users.empty:
             self.df_users = self.df_users._append(new_user, ignore_index=True)
-            self.df_users.to_json('users.json', orient='records', lines=True)
+            self.df_users.to_json(self.file_name, orient='records', lines=True)
         else:
             if name in self.df_users['name'].values:
                 print(f"O nome '{name}' já está cadastrado.")
             else:
                 self.df_users = self.df_users._append(new_user, ignore_index=True)
-                self.df_users.to_json('users.json', orient='records', lines=True)
+                self.df_users.to_json(self.file_name, orient='records', lines=True)
         user = self.get_user_class(new_user)
         return user
 
@@ -53,3 +53,13 @@ class UserSystem:
                 else:
                     print("Senha errada!!")
             return Admin(user['name'], user['wins'], user['loses'])
+
+    def update_score(self, name, result):
+        if nome in self.df_users.index:
+            if result == 'win':
+                self.df_users.loc[nome, "wins"] += 1
+            elif result == 'lose':
+                self.df_users.loc[nome, "loses"] += 1
+        else:
+            print("Usuário não encontrado")
+        self.df_users.to_json(self.file_name, orient='records', lines=True)
