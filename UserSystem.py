@@ -55,11 +55,12 @@ class UserSystem:
             return Admin(user['name'], user['wins'], user['loses'])
 
     def update_score(self, name, result):
-        if nome in self.df_users.index:
+        if name in self.df_users['name'].values:
+            index = self.df_users.index[self.df_users['name'] == name].tolist()[0]
             if result == 'win':
-                self.df_users.loc[nome, "wins"] += 1
+                self.df_users.loc[index, "wins"] += 1
             elif result == 'lose':
-                self.df_users.loc[nome, "loses"] += 1
+                self.df_users.loc[index, "loses"] += 1
         else:
             print("Usuário não encontrado")
         self.df_users.to_json(self.file_name, orient='records', lines=True)

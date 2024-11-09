@@ -1,6 +1,5 @@
 import pandas as pd
 import random
-from Utils import Utils
 
 class Hangman:
     def __init__(self, file_name):
@@ -58,21 +57,21 @@ class Hangman:
     def check_game_end(self):
         if "_" not in self.show_state():
             print("Parabéns! Você ganhou!")
+            self.result = 'win'
             return True
         elif self.remaining_tries == 0:
             print("Você perdeu! A palavra era", self.actual_word)
+            self.result = 'lose'
             return True
         else:
             return False
 
     def start_game(self):
-        playing = True
-        while playing == True:
-            self.actual_word = self.df_words.sample(n=1)['word'].iloc[0]
-            self.remaining_tries = 6
-            self.guessed_letters = set()
-            while self.check_game_end() == False:
-                self.show_state()
-                guess = self.get_guess()
-                self.verify_guess(guess)
-            playing = Utils.confirm_action("Deseja continuar jogando? ")
+        self.actual_word = self.df_words.sample(n=1)['word'].iloc[0]
+        self.remaining_tries = 6
+        self.guessed_letters = set()
+        while self.check_game_end() == False:
+            self.show_state()
+            guess = self.get_guess()
+            self.verify_guess(guess)
+        return self.result

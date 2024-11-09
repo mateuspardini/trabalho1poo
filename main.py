@@ -1,5 +1,6 @@
 from Hangman import Hangman
 from UserSystem import UserSystem
+from Utils import Utils
 
 
 def main():
@@ -12,6 +13,6 @@ def main():
         logged_user.add_words(game)
     elif logged_user.role == 'jogador':
         # Inicia o jogo
-        game.start_game()
+        logged_user.play(game, userSystem)
 
 main()
