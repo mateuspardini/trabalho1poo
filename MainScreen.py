@@ -21,7 +21,9 @@ class MainScreen(Screen):
         # Nome
         name_label = tk.Label(intro_frame, text="Digite seu nome:", font=("Arial", 16), bg="black", fg="white")
         name_label.pack(pady=5)
-        self.name_entry = tk.Entry(intro_frame, font=("Arial", 16), bg="black", fg="white", justify="center")
+        self.name_entry = tk.Entry(intro_frame, font=("Arial", 16), bg="black", fg="white", justify="center", insertbackground="white")
+        self.name_entry.bind("<Return>", lambda event: self.show_game_page())
+        self.name_entry.focus_set()
         self.name_entry.pack(pady=10)
 
         # Botão de iniciar o jogo
@@ -51,6 +53,8 @@ class MainScreen(Screen):
         # Verifica se o campo de nome foi preenchido
         if self.name_entry.get().strip() == "":
             messagebox.showwarning("Aviso", "Por favor, insira seu nome antes de continuar.")
+        elif self.name_entry.get().strip().lower() == "admin":
+            self.open_admin_panel()   
         else:
             # Remove todos os widgets da janela atual (esconde o frame de introdução)
             for widget in self.root.winfo_children():
