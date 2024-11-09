@@ -16,6 +16,7 @@ class Player(User):
         while playing == True:
             result = hangman.start_game()
             userSystem.update_score(self.name, result)
+            userSystem.show_ranking()
             playing = Utils.confirm_action("Deseja jogar novamente? ")
 
 class Admin(User):
