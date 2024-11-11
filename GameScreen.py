@@ -58,7 +58,6 @@ class GameScreen(Screen):
         if not letter:
             messagebox.showwarning("Aviso", "Por favor, insira uma letra.")
             self.letter_entry.delete(0, tk.END)
-            
             return
 
         if len(letter) > 1:
@@ -86,29 +85,15 @@ class GameScreen(Screen):
             # Verifica se o jogador adivinhou a palavra completa
             if "_" not in self.guessed_word:
                 messagebox.showinfo("Parabéns!", "Você adivinhou a palavra!")
-                self.reset_game()
+                self.ranking_menu()
         else:
             # Adiciona a letra errada à lista e atualiza o label
             self.wrong_letters.add(letter)
+            self.reduce_attempts()
             self.wrong_letters_label.config(text="LETRAS ERRADAS:" + ", ".join([letter.upper() for letter in self.wrong_letters]))
         self.guessed_letters.add(letter)
         self.letter_entry.delete(0, tk.END)
-
-        if letter in self.word_to_guess:
-            # Atualiza a palavra adivinhada
-            for index, char in enumerate(self.word_to_guess):
-                if char == letter:
-                    self.guessed_word[index] = letter
-
-            # Atualiza o label com a palavra adivinhada
-            self.word_label.config(text=" ".join([letter.upper() for letter in self.guessed_word]))
-
-            # Verifica se o jogador adivinhou a palavra completa
-            if "_" not in self.guessed_word:
-                messagebox.showinfo("Parabéns!", "Você adivinhou a palavra!")
-                self.reset_game()
-        else:
-            self.reduce_attempts()
+            
 
     def reduce_attempts(self):
         """Reduz as tentativas em 1 e desenha parte do boneco."""
@@ -128,7 +113,8 @@ class GameScreen(Screen):
         elif self.attempts == 0:
             self.canvas.create_line(300, 220, 325, 245, width=4, fill="white")  # Perna direita
             messagebox.showinfo("Fim de Jogo", f"Você perdeu! A palavra era '{self.word_to_guess}'.")
-            self.reset_game()
+
+            self.ranking_menu()
 
     def reset_game(self):
         """Reseta o jogo para um novo início."""
@@ -145,3 +131,12 @@ class GameScreen(Screen):
         self.canvas.create_line(300, 100, 300, 120, width=4, fill="white")
         # Atualiza o label com a palavra adivinhada
         self.word_label.config(text=" ".join(self.guessed_word))
+    def ranking_menu(self):
+        from RankingScreen import RankingScreen
+    # Limpa todos os widgets da janela atual
+        for widget in self.root.winfo_children():
+            widget.destroy()
+
+        # Carrega a tela principal na mesma janela
+        ranking_screen = RankingScreen(self.root)
+        ranking_screen.display()
