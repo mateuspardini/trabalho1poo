@@ -44,7 +44,7 @@ class MainScreen(Screen):
 
         # Ranking
         ranking_label = tk.Label(intro_frame, text="Ranking", font=("Arial", 16), bg="black", fg="white")
-        ranking_item1 = tk.Label(intro_frame, text=f"{self.userSystem.get_ranking().iloc[0]['name'].capitalize()} - {self.userSystem.get_ranking().iloc[0]['wins']}W / {self.userSystem.get_ranking().iloc[0]['wins']}L", font=("Arial", 12), bg="black", fg="white")
+        ranking_item1 = tk.Label(intro_frame, text=f"{self.userSystem.get_ranking().iloc[0]['name'].capitalize()} - {self.userSystem.get_ranking().iloc[0]['wins']}W / {self.userSystem.get_ranking().iloc[0]['loses']}L", font=("Arial", 12), bg="black", fg="white")
         ranking_item2 = tk.Label(intro_frame, text=f"{self.userSystem.get_ranking().iloc[1]['name'].capitalize()} - {self.userSystem.get_ranking().iloc[1]['wins']}W / {self.userSystem.get_ranking().iloc[1]['loses']}L", font=("Arial", 12), bg="black", fg="white")
         ranking_item3 = tk.Label(intro_frame, text=f"{self.userSystem.get_ranking().iloc[2]['name'].capitalize()} - {self.userSystem.get_ranking().iloc[2]['wins']}W / {self.userSystem.get_ranking().iloc[2]['loses']}L", font=("Arial", 12), bg="black", fg="white")
 
