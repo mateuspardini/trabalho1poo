@@ -30,7 +30,7 @@ class UserSystem:
         return user
 
     def auth(self):
-        name = input("Por favor, insira seu nome: ")
+        name = input("Por favor, insira seu nome: ").lower()
         user_data = self.df_users[self.df_users['name'] == name]
         
         if user_data.empty:

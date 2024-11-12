@@ -1,7 +1,8 @@
 from Hangman import Hangman
 from UserSystem import UserSystem
 from Utils import Utils
-
+import tkinter as tk
+from MainScreen import MainScreen
 
 def main():
     # Cria uma instância da classe Forca com uma lista de palavras
@@ -16,3 +17,9 @@ def main():
         logged_user.play(game, userSystem)
 
 main()
+
+
+# if __name__ == "__main__":
+#     root = tk.Tk()
+#     tela_principal = MainScreen(root)
+#     tela_principal.display()
