@@ -56,8 +56,6 @@ class UserSystem:
             print("Usuário não encontrado")
         self.df_users.to_json(self.file_name, orient='records', lines=True)
 
-    def show_ranking(self):
+    def get_ranking(self):
         sorted_players = self.df_users[self.df_users['role'] == 'jogador'].sort_values(by=['wins', 'loses'], ascending=[False, True])
-        output = sorted_players.apply(lambda row: f"{row['name']}: {row['wins']} Vitórias e {row['loses']} Derrotas", axis=1).tolist()
-        for line in output:
-            print(line)
+        return sorted_players
