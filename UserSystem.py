@@ -29,12 +29,10 @@ class UserSystem:
         user = self.get_user_class(new_user)
         return user
 
-    def auth(self):
-        name = input("Por favor, insira seu nome: ").lower()
+    def auth(self, name):
         user_data = self.df_users[self.df_users['name'] == name]
         
         if user_data.empty:
-            print(f"Usuário {name} não encontrado. Adicionando ao banco.")
             new_user = self.add_user(name, 'jogador')
             return new_user
         else:
@@ -45,13 +43,6 @@ class UserSystem:
         if user['role'] == 'jogador':
             return Player(user['name'], user['wins'], user['loses'])
         elif user['role'] == 'admin':
-            password = ''
-            while password != 'admin':
-                password = input("Insira a senha: ")
-                if password == 'admin':
-                    print(f"Seja bem vindo {user['name']}")
-                else:
-                    print("Senha errada!!")
             return Admin(user['name'], user['wins'], user['loses'])
 
     def update_score(self, name, result):

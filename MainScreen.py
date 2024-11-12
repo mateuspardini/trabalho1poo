@@ -3,12 +3,16 @@ from Screen import Screen
 from AdminScreen import AdminScreen
 from GameScreen import GameScreen
 from tkinter import simpledialog, messagebox
+from Hangman import Hangman
+from UserSystem import UserSystem
 
 class MainScreen(Screen):
     def screen_config(self):
         self.root.geometry("600x500")
         self.root.title("Jogo da Forca")
         self.root.configure(bg="black")
+        self.game = Hangman('words.json')
+        self.userSystem = UserSystem('users.json')
 
         # Frame de introdução
         intro_frame = tk.Frame(self.root, bg="black")
@@ -22,12 +26,12 @@ class MainScreen(Screen):
         name_label = tk.Label(intro_frame, text="Digite seu nome:", font=("Arial", 16), bg="black", fg="white")
         name_label.pack(pady=5)
         self.name_entry = tk.Entry(intro_frame, font=("Arial", 16), bg="black", fg="white", justify="center", insertbackground="white")
-        self.name_entry.bind("<Return>", lambda event: self.show_game_page())
+        self.name_entry.bind("<Return>", lambda event: self.auth())
         self.name_entry.focus_set()
         self.name_entry.pack(pady=10)
 
         # Botão de iniciar o jogo
-        start_button = tk.Button(intro_frame, text="Iniciar Jogo", font=("Arial", 16), command=self.show_game_page, bg="black", fg="white")
+        start_button = tk.Button(intro_frame, text="Iniciar Jogo", font=("Arial", 16), command=self.auth, bg="black", fg="white")
         start_button.pack(pady=10)
 
         # Botão de administrador no canto inferior direito
@@ -49,20 +53,22 @@ class MainScreen(Screen):
         ranking_item2.pack()
         ranking_item3.pack()
 
-    def show_game_page(self):
+    def auth(self):
         # Verifica se o campo de nome foi preenchido
         if self.name_entry.get().strip() == "":
             messagebox.showwarning("Aviso", "Por favor, insira seu nome antes de continuar.")
-        elif self.name_entry.get().strip().lower() == "admin":
-            self.open_admin_panel()   
         else:
-            # Remove todos os widgets da janela atual (esconde o frame de introdução)
-            for widget in self.root.winfo_children():
-                widget.destroy()
+            self.user = self.userSystem.auth(self.name_entry.get().strip())
+            if self.user.role == "admin":
+                self.open_admin_panel()   
+            else:
+                # Remove todos os widgets da janela atual (esconde o frame de introdução)
+                for widget in self.root.winfo_children():
+                    widget.destroy()
 
-            # Carrega a GameScreen na mesma janela
-            game_screen = GameScreen(self.root)
-            game_screen.display()     
+                # Carrega a GameScreen na mesma janela
+                game_screen = GameScreen(self.root)
+                game_screen.display()     
 
     def open_admin_panel(self):
         # Solicita a senha do administrador
