@@ -19,7 +19,7 @@ def main():
 main()
 
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    tela_principal = MainScreen(root)
-    tela_principal.display()
+# if __name__ == "__main__":
+#     root = tk.Tk()
+#     tela_principal = MainScreen(root)
+#     tela_principal.display()
