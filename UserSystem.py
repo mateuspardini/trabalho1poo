@@ -19,13 +19,13 @@ class UserSystem:
         }
         if self.df_users.empty:
             self.df_users = self.df_users._append(new_user, ignore_index=True)
-            self.df_users.to_json('users.json', orient='records', lines=True)
+            self.df_users.to_json(self.file_name, orient='records', lines=True)
         else:
             if name in self.df_users['name'].values:
                 print(f"O nome '{name}' já está cadastrado.")
             else:
                 self.df_users = self.df_users._append(new_user, ignore_index=True)
-                self.df_users.to_json('users.json', orient='records', lines=True)
+                self.df_users.to_json(self.file_name, orient='records', lines=True)
         user = self.get_user_class(new_user)
         return user
 
@@ -35,8 +35,7 @@ class UserSystem:
         
         if user_data.empty:
             print(f"Usuário {name} não encontrado. Adicionando ao banco.")
-            role = input("Digite o cargo (Jogador/Admin): ")
-            new_user = self.add_user(name, role.lower())
+            new_user = self.add_user(name, 'jogador')
             return new_user
         else:
             user = self.get_user_class(user_data.iloc[0])
@@ -46,4 +45,28 @@ class UserSystem:
         if user['role'] == 'jogador':
             return Player(user['name'], user['wins'], user['loses'])
         elif user['role'] == 'admin':
+            password = ''
+            while password != 'admin':
+                password = input("Insira a senha: ")
+                if password == 'admin':
+                    print(f"Seja bem vindo {user['name']}")
+                else:
+                    print("Senha errada!!")
             return Admin(user['name'], user['wins'], user['loses'])
+
+    def update_score(self, name, result):
+        if name in self.df_users['name'].values:
+            index = self.df_users.index[self.df_users['name'] == name].tolist()[0]
+            if result == 'win':
+                self.df_users.loc[index, "wins"] += 1
+            elif result == 'lose':
+                self.df_users.loc[index, "loses"] += 1
+        else:
+            print("Usuário não encontrado")
+        self.df_users.to_json(self.file_name, orient='records', lines=True)
+
+    def show_ranking(self):
+        sorted_players = self.df_users[self.df_users['role'] == 'jogador'].sort_values(by=['wins', 'loses'], ascending=[False, True])
+        output = sorted_players.apply(lambda row: f"{row['name']}: {row['wins']} Vitórias e {row['loses']} Derrotas", axis=1).tolist()
+        for line in output:
+            print(line)

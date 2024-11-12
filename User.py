@@ -1,3 +1,5 @@
+from Utils import Utils
+
 class User:
     def __init__(self, name, role, wins, loses):
         self.name = name
@@ -9,6 +11,14 @@ class Player(User):
     def __init__(self, name, wins, loses):
         super().__init__(name, 'jogador', wins, loses)
 
+    def play(self, hangman, userSystem):
+        playing = True
+        while playing == True:
+            result = hangman.start_game()
+            userSystem.update_score(self.name, result)
+            userSystem.show_ranking()
+            playing = Utils.confirm_action("Deseja jogar novamente? ")
+
 class Admin(User):
     def __init__(self, name, wins, loses):
         super().__init__(name, 'admin', wins, loses)
@@ -19,18 +29,7 @@ class Admin(User):
             confirmation = False
             word = ''
             while confirmation == False:
-                word = input("Insira a palavra que deseja adicionar: ")
-                confirmation = self.confirm_action(f"Você tem certeza que deseja inserir a palavra {word} no banco? ")
-            hangman.add_word(word)
-            add_another_word = self.confirm_action("Deseja adicionar uma nova palavra? ")
-
-
-    def confirm_action(self, message):
-        while True:
-            resposta = input(message).lower()
-            if resposta in ['s', 'sim']:
-                return True
-            elif resposta in ['n', 'não', 'nao']:
-                return False
-            else:
-                print("Por favor, responda com 's' para sim ou 'n' para não.")
+                word = input("Insira a palavra que deseja adicionar: ").lower()
+                confirmation = Utils.confirm_action(f"Você tem certeza que deseja inserir a palavra {word} no banco? ")
+            hangman.add_word(word.lower())
+            add_another_word = Utils.confirm_action("Deseja adicionar uma nova palavra? ")
