@@ -38,7 +38,7 @@ class AdminScreen(Screen):
         self.root.mainloop()
 
     def add_word(self):
-        self.user.add_word(self.game, self.add_word_entry.get().strip())
+        self.user.add_word(self.wordSystem, self.add_word_entry.get().strip())
         self.add_word_entry.delete(0, tk.END)
 
     def back(self):

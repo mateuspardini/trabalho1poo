@@ -3,8 +3,9 @@ from tkinter import ttk
 from Screen import Screen
 
 class RankingScreen(Screen):
-    def __init__(self, root):
+    def __init__(self, root, user):
         self.root = root
+        self.user = user
         self.screen_config()
 
     def screen_config(self):
@@ -48,7 +49,7 @@ class RankingScreen(Screen):
             widget.destroy()
 
         # Carrega a tela principal na mesma janela
-        game_screen = GameScreen(self.root)
+        game_screen = GameScreen(self.root, self.user)
         game_screen.display()
 
     def on_exit_to_menu(self):

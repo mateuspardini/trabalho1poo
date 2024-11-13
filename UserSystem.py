@@ -12,7 +12,7 @@ class UserSystem:
 
     def add_user(self, name, role):
         new_user = {
-            'name': name,
+            'name': name.lower(),
             'role': role,
             'wins': 0,
             'loses': 0
@@ -30,7 +30,7 @@ class UserSystem:
         return user
 
     def auth(self, name):
-        user_data = self.df_users[self.df_users['name'] == name]
+        user_data = self.df_users[self.df_users['name'] == name.lower()]
         
         if user_data.empty:
             new_user = self.add_user(name, 'jogador')

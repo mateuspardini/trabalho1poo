@@ -1,11 +1,13 @@
 import tkinter as tk
 from Screen import Screen
 from tkinter import messagebox
+from RankingScreen import RankingScreen
 
 class GameScreen(Screen):
-    def __init__(self, root):
+    def __init__(self, root, user):
         super().__init__(root)
         self.attempts = 6
+        self.user = user
         self.screen_config()
 
 
@@ -13,7 +15,7 @@ class GameScreen(Screen):
         self.root.geometry("600x500")
         self.root.configure(bg="black")
 
-        self.word_to_guess = "computador"
+        self.word_to_guess = self.wordSystem.get_random_word()
         self.guessed_word = ["_"] * len(self.word_to_guess)  # Inicializa com underscores
         self.guessed_letters = set()  # Letras já chutadas
         self.wrong_letters = set() # Letras erradas chutadas
@@ -84,6 +86,7 @@ class GameScreen(Screen):
 
             # Verifica se o jogador adivinhou a palavra completa
             if "_" not in self.guessed_word:
+                self.userSystem.update_score(self.user.name, 'win')
                 messagebox.showinfo("Parabéns!", "Você adivinhou a palavra!")
                 self.ranking_menu()
         else:
@@ -112,6 +115,7 @@ class GameScreen(Screen):
             self.canvas.create_line(300, 220, 275, 245, width=4, fill="white")  # Perna esquerda
         elif self.attempts == 0:
             self.canvas.create_line(300, 220, 325, 245, width=4, fill="white")  # Perna direita
+            self.userSystem.update_score(self.user.name, 'lose')
             messagebox.showinfo("Fim de Jogo", f"Você perdeu! A palavra era '{self.word_to_guess}'.")
 
             self.ranking_menu()
@@ -132,11 +136,10 @@ class GameScreen(Screen):
         # Atualiza o label com a palavra adivinhada
         self.word_label.config(text=" ".join(self.guessed_word))
     def ranking_menu(self):
-        from RankingScreen import RankingScreen
     # Limpa todos os widgets da janela atual
         for widget in self.root.winfo_children():
             widget.destroy()
 
         # Carrega a tela principal na mesma janela
-        ranking_screen = RankingScreen(self.root)
+        ranking_screen = RankingScreen(self.root, self.user)
         ranking_screen.display()

@@ -1,4 +1,3 @@
-from Hangman import Hangman
 from UserSystem import UserSystem
 from Utils import Utils
 import tkinter as tk

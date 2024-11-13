@@ -67,7 +67,7 @@ class MainScreen(Screen):
                     widget.destroy()
 
                 # Carrega a GameScreen na mesma janela
-                game_screen = GameScreen(self.root)
+                game_screen = GameScreen(self.root, self.user)
                 game_screen.display()     
 
     def open_admin_panel(self):
