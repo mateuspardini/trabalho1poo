@@ -11,14 +11,8 @@ class Hangman:
             self.df_words.to_json(self.file_name, orient='records', lines=True)
 
     def add_word(self, word):
-        if len(word) < 3:
-            print(f"A palavra deve ter 3 ou mais caracteres.")
-        elif word.lower() in self.df_words['word'].str.lower().values:
-            print(f"A palavra '{word}' já está na lista.")
-        else:
             self.df_words = self.df_words._append({'word': word}, ignore_index=True)
             self.df_words.to_json(self.file_name, orient='records', lines=True)
-            print(f"Palavra '{word}' adicionada com sucesso!")
 
     def show_state(self):
       from IPython.display import clear_output

@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from Screen import Screen
 
-class RankingScreen:
+class RankingScreen(Screen):
     def __init__(self, root):
         self.root = root
         self.screen_config()

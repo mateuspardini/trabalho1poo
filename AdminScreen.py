@@ -3,6 +3,11 @@ from Screen import Screen
 
 
 class AdminScreen(Screen):
+    def __init__(self, root, user):
+        super().__init__(root)
+        self.user = user
+        self.screen_config()
+
     def screen_config(self):
         self.root.geometry("600x500")
         self.root.configure(bg="black")
@@ -16,8 +21,10 @@ class AdminScreen(Screen):
         add_word_label.pack(pady=5)
 
         # Entrada de texto para a palavra
-        add_word_entry = tk.Entry(admin_frame, font=("Arial", 16), bg="black", fg="white", justify="center")
-        add_word_entry.pack(pady=10)
+        self.add_word_entry = tk.Entry(admin_frame, font=("Arial", 16), bg="black", fg="white", justify="center")
+        self.add_word_entry.bind("<Return>", lambda event: self.add_word())
+        self.add_word_entry.focus_set()
+        self.add_word_entry.pack(pady=10)
 
         # Botão para confirmar a palavra
         add_word_button = tk.Button(admin_frame, text="Confirmar palavra", font=("Arial", 16), command=self.add_word, bg="black", fg="white")
@@ -31,8 +38,8 @@ class AdminScreen(Screen):
         self.root.mainloop()
 
     def add_word(self):
-        # Função placeholder para adicionar lógica de adicionar palavra
-        print("Palavra adicionada (a lógica pode ser implementada aqui)")
+        self.user.add_word(self.game, self.add_word_entry.get().strip())
+        self.add_word_entry.delete(0, tk.END)
 
     def back(self):
         from MainScreen import MainScreen

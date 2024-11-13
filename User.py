@@ -1,4 +1,5 @@
 from Utils import Utils
+import tkinter as tk
 
 class User:
     def __init__(self, name, role, wins, loses):
@@ -23,13 +24,11 @@ class Admin(User):
     def __init__(self, name, wins, loses):
         super().__init__(name, 'admin', wins, loses)
 
-    def add_words(self, hangman):
-        add_another_word = True
-        while add_another_word == True:
-            confirmation = False
-            word = ''
-            while confirmation == False:
-                word = input("Insira a palavra que deseja adicionar: ").lower()
-                confirmation = Utils.confirm_action(f"Você tem certeza que deseja inserir a palavra {word} no banco? ")
-            hangman.add_word(word.lower())
-            add_another_word = Utils.confirm_action("Deseja adicionar uma nova palavra? ")
+    def add_word(self, game, word):
+        if len(word) < 3:
+            tk.messagebox.showwarning("Aviso", "A palavra deve ter 3 ou mais caracteres.")
+        elif word.lower() in game.df_words['word'].str.lower().values:
+            tk.messagebox.showwarning("Aviso", f"A palavra '{word}' já está na lista.")
+        else:
+            game.add_word(word)
+            tk.messagebox.showinfo("Sucesso", "Palavra adicionada com sucesso!")

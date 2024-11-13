@@ -3,16 +3,16 @@ from Screen import Screen
 from AdminScreen import AdminScreen
 from GameScreen import GameScreen
 from tkinter import simpledialog, messagebox
-from Hangman import Hangman
-from UserSystem import UserSystem
 
 class MainScreen(Screen):
+    def __init__(self, root):
+        super().__init__(root)
+        self.screen_config()
+
     def screen_config(self):
         self.root.geometry("600x500")
         self.root.title("Jogo da Forca")
         self.root.configure(bg="black")
-        self.game = Hangman('words.json')
-        self.userSystem = UserSystem('users.json')
 
         # Frame de introdução
         intro_frame = tk.Frame(self.root, bg="black")
@@ -79,7 +79,7 @@ class MainScreen(Screen):
             for widget in self.root.winfo_children():
                 widget.destroy()
             # Cria uma nova janela para o painel de administrador
-            admin_screen = AdminScreen(self.root)
+            admin_screen = AdminScreen(self.root, self.user)
             admin_screen.display()
         else:
             messagebox.showerror("Erro", "Senha incorreta!")

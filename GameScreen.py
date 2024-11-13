@@ -3,10 +3,10 @@ from Screen import Screen
 from tkinter import messagebox
 
 class GameScreen(Screen):
-
     def __init__(self, root):
         super().__init__(root)
         self.attempts = 6
+        self.screen_config()
 
 
     def screen_config(self):
