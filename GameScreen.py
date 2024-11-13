@@ -86,8 +86,7 @@ class GameScreen(Screen):
 
             # Verifica se o jogador adivinhou a palavra completa
             if "_" not in self.guessed_word:
-                self.userSystem.update_score(self.user.name, 'win')
-                messagebox.showinfo("Parabéns!", "Você adivinhou a palavra!")
+                self.user.win(self.userSystem)
                 self.ranking_menu()
         else:
             # Adiciona a letra errada à lista e atualiza o label
@@ -115,8 +114,7 @@ class GameScreen(Screen):
             self.canvas.create_line(300, 220, 275, 245, width=4, fill="white")  # Perna esquerda
         elif self.attempts == 0:
             self.canvas.create_line(300, 220, 325, 245, width=4, fill="white")  # Perna direita
-            self.userSystem.update_score(self.user.name, 'lose')
-            messagebox.showinfo("Fim de Jogo", f"Você perdeu! A palavra era '{self.word_to_guess}'.")
+            self.user.lose(self.userSystem, self.word_to_guess)
 
             self.ranking_menu()
 

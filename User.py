@@ -12,13 +12,13 @@ class Player(User):
     def __init__(self, name, wins, loses):
         super().__init__(name, 'jogador', wins, loses)
 
-    def play(self, hangman, userSystem):
-        playing = True
-        while playing == True:
-            result = hangman.start_game()
-            userSystem.update_score(self.name, result)
-            userSystem.show_ranking()
-            playing = Utils.confirm_action("Deseja jogar novamente? ")
+    def win(self, userSystem):
+        userSystem.update_score(self.name, 'win')
+        tk.messagebox.showinfo("Parabéns!", "Você adivinhou a palavra!")
+
+    def lose(self, userSystem, word):
+        userSystem.update_score(self.name, 'lose')
+        tk.messagebox.showinfo("Fim de Jogo", f"Você perdeu! A palavra era '{word}'.")
 
 class Admin(User):
     def __init__(self, name, wins, loses):
