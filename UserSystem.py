@@ -29,6 +29,12 @@ class UserSystem:
         user = self.get_user_class(new_user)
         return user
 
+    def get_user_class(self, user):
+        if user['role'] == 'jogador':
+            return Player(user['name'], user['wins'], user['loses'])
+        elif user['role'] == 'admin':
+            return Admin(user['name'], user['wins'], user['loses'])
+
     def auth(self, name):
         user_data = self.df_users[self.df_users['name'] == name.lower()]
         
@@ -38,12 +44,6 @@ class UserSystem:
         else:
             user = self.get_user_class(user_data.iloc[0])
             return user
-
-    def get_user_class(self, user):
-        if user['role'] == 'jogador':
-            return Player(user['name'], user['wins'], user['loses'])
-        elif user['role'] == 'admin':
-            return Admin(user['name'], user['wins'], user['loses'])
 
     def update_score(self, name, result):
         if name in self.df_users['name'].values:

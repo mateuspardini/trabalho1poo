@@ -1,4 +1,3 @@
-from Utils import Utils
 import tkinter as tk
 
 class User:
