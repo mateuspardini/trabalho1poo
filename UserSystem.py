@@ -59,3 +59,12 @@ class UserSystem:
     def get_ranking(self):
         sorted_players = self.df_users[self.df_users['role'] == 'jogador'].sort_values(by=['wins', 'loses'], ascending=[False, True])
         return sorted_players
+
+    def get_top_10(self):
+        ranking = self.get_ranking()
+        top_10_players = ranking.head(10)
+        
+        # Formata o ranking no formato desejado
+        ranking_list = [f"{row['name'].capitalize()} - {row['wins']}W / {row['loses']}L" for _, row in top_10_players.iterrows()]
+        
+        return ranking_list

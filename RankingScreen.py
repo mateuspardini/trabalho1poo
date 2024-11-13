@@ -4,6 +4,7 @@ from Screen import Screen
 
 class RankingScreen(Screen):
     def __init__(self, root, user):
+        super().__init__(root)
         self.root = root
         self.user = user
         self.screen_config()
@@ -23,10 +24,10 @@ class RankingScreen(Screen):
         # Frame para mostrar o top 10 rankings
         ranking_frame = tk.Frame(self.root, bg='black')
         ranking_frame.pack(pady=10)
-        self.rankings = ["Player1 - 100 pontos", "Player2 - 95 pontos", "Player3 - 90 pontos", "Player4 - 85 pontos", "Player5 - 80 pontos", "Player6 - 75 pontos", "Player7 - 70 pontos", "Player8 - 65 pontos", "Player9 - 60 pontos", "Player10 - 55 pontos"]
+        self.ranking = self.userSystem.get_top_10()
         
         # Adiciona os rankings ao frame
-        for idx, rank in enumerate(self.rankings[:10], start=1):
+        for idx, rank in enumerate(self.ranking[:10], start=1):
             rank_label = tk.Label(ranking_frame, text=f"{idx}. {rank}", font=("Helvetica", 16), fg='white', bg='black')
             rank_label.pack(anchor='w')
 
