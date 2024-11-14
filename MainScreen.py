@@ -34,9 +34,6 @@ class MainScreen(Screen):
         start_button = tk.Button(intro_frame, text="Iniciar Jogo", font=("Arial", 16), command=self.auth, bg="black", fg="white")
         start_button.pack(pady=10)
 
-        # Botão de administrador no canto inferior direito
-        admin_button = tk.Button(intro_frame, text="Admin", font=("Arial", 10), command=self.open_admin_panel, bg="black", fg="white")
-        admin_button.place(relx=1.0, rely=1.0, anchor="se", x=-10, y=-10)
 
         # Botão para sair do jogo jno canto inferior esquerdo
         exit_button = tk.Button(intro_frame, text="SAIR", font=("Arial", 10), command=self.exit_game, bg="red", fg="white")

@@ -21,7 +21,7 @@ class AdminScreen(Screen):
         add_word_label.pack(pady=5)
 
         # Entrada de texto para a palavra
-        self.add_word_entry = tk.Entry(admin_frame, font=("Arial", 16), bg="black", fg="white", justify="center")
+        self.add_word_entry = tk.Entry(admin_frame, font=("Arial", 16), bg="black", fg="white", justify="center",insertbackground="white")
         self.add_word_entry.bind("<Return>", lambda event: self.add_word())
         self.add_word_entry.focus_set()
         self.add_word_entry.pack(pady=10)
