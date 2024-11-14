@@ -12,7 +12,7 @@ class UserSystem:
 
     def add_user(self, name, role):
         new_user = {
-            'name': name,
+            'name': name.lower(),
             'role': role,
             'wins': 0,
             'loses': 0
@@ -29,30 +29,21 @@ class UserSystem:
         user = self.get_user_class(new_user)
         return user
 
-    def auth(self):
-        name = input("Por favor, insira seu nome: ").lower()
-        user_data = self.df_users[self.df_users['name'] == name]
+    def get_user_class(self, user):
+        if user['role'] == 'jogador':
+            return Player(user['name'], user['wins'], user['loses'])
+        elif user['role'] == 'admin':
+            return Admin(user['name'], user['wins'], user['loses'])
+
+    def auth(self, name):
+        user_data = self.df_users[self.df_users['name'] == name.lower()]
         
         if user_data.empty:
-            print(f"Usuário {name} não encontrado. Adicionando ao banco.")
             new_user = self.add_user(name, 'jogador')
             return new_user
         else:
             user = self.get_user_class(user_data.iloc[0])
             return user
-
-    def get_user_class(self, user):
-        if user['role'] == 'jogador':
-            return Player(user['name'], user['wins'], user['loses'])
-        elif user['role'] == 'admin':
-            password = ''
-            while password != 'admin':
-                password = input("Insira a senha: ")
-                if password == 'admin':
-                    print(f"Seja bem vindo {user['name']}")
-                else:
-                    print("Senha errada!!")
-            return Admin(user['name'], user['wins'], user['loses'])
 
     def update_score(self, name, result):
         if name in self.df_users['name'].values:
@@ -65,8 +56,15 @@ class UserSystem:
             print("Usuário não encontrado")
         self.df_users.to_json(self.file_name, orient='records', lines=True)
 
-    def show_ranking(self):
+    def get_ranking(self):
         sorted_players = self.df_users[self.df_users['role'] == 'jogador'].sort_values(by=['wins', 'loses'], ascending=[False, True])
-        output = sorted_players.apply(lambda row: f"{row['name']}: {row['wins']} Vitórias e {row['loses']} Derrotas", axis=1).tolist()
-        for line in output:
-            print(line)
+        return sorted_players
+
+    def get_top_10(self):
+        ranking = self.get_ranking()
+        top_10_players = ranking.head(10)
+        
+        # Formata o ranking no formato desejado
+        ranking_list = [f"{row['name'].capitalize()} - {row['wins']}W / {row['loses']}L" for _, row in top_10_players.iterrows()]
+        
+        return ranking_list
